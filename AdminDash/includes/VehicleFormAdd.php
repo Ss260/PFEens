@@ -165,8 +165,8 @@
                             <div class="question">
                                 <p>Fuel Type<span class="required">*</span></p>
                                 <div class="question-answer">
-                                  <label><input type="radio" value="none" name="FuelType" required/> <span>Gasoline</span></label>
-                                  <label><input type="radio" value="none" name="FuelType" required/> <span>Diesel</span></label>
+                                  <label><input type="radio" value="Gasoline" name="FuelType" required/> <span>Gasoline</span></label>
+                                  <label><input type="radio" value="Diesel" name="FuelType" required/> <span>Diesel</span></label>
                                 </div>
                               </div>
                             <p>License Plate<span class="required">*</span></p>
@@ -208,15 +208,15 @@
                           <div class="question">
                             <p>Transmission<span class="required">*</span></p>
                             <div class="question-answer">
-                              <label><input type="radio" value="none" name="Transmission" required/> <span>Automatic</span></label>
-                              <label><input type="radio" value="none" name="Transmission" required/> <span>Manuel</span></label>
+                              <label><input type="radio" value="Automatic" name="Transmission" required/> <span>Automatic</span></label>
+                              <label><input type="radio" value="Manuel" name="Transmission" required/> <span>Manuel</span></label>
                             </div>
                           </div>
                           <div class="question">
                             <p>Availability<span class="required">*</span></p>
                             <div class="question-answer">
-                              <label><input type="radio" value="0" name="Availability" required/> <span>Yes</span></label>
-                              <label><input type="radio" value="1" name="Availability" required/> <span>No</span></label>
+                              <label><input type="radio" value="1" name="Availability" required/> <span>Yes</span></label>
+                              <label><input type="radio" value="0" name="Availability" required/> <span>No</span></label>
                             </div>
                           </div>
                           

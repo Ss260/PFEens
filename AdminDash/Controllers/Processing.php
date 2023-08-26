@@ -19,12 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $adminNotes = $_POST['AdminNotes'];
         $legalDocuments = $_POST['LegalDocuments'];
         $transmission = $_POST['Transmission'];
-        $availability = $_POST['Availability'];
+        $availability = (int)$_POST['Availability'];
 
         // Handle uploaded image
         $imageURLs = array();
         if(isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
-            $uploadDirectory = '../img';  
+            $uploadDirectory = '../Controllers/CarImg/';
             $imageCount = count($_FILES['images']['name']);
             for($i = 0; $i < $imageCount; $i++) {
                 $imageName = $_FILES['images']['name'][$i];
@@ -44,7 +44,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             
             // Call the addVehicle method
             $result = $vehicleObj->addVehicle($carModel, $carType, $year, $color, $mileage, $licensePlate, $fuelType, $transmission, $seatingCapacity, $dailyRate, $availability, $location, $adminNotes, $legalDocuments, $imageURLs);
-
             if ($result) {
                 $successMessage = "Vehicle added successfully.";
             } else {
@@ -132,7 +131,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Handle file uploads and update images if necessary
                         $imageURLs = array();
                         if (isset($_FILES['images']['name']) && !empty($_FILES['images']['name'][0])) {
-                            $uploadDir = '../../AdminDash/img/'; // Specify the directory where images will be uploaded
+                            $uploadDir = '../Controllers/CarImg/'; // Specify the directory where images will be uploaded
                     
                             // Loop through each uploaded image
                             for ($i = 0; $i < count($_FILES['images']['name']); $i++) {

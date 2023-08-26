@@ -118,7 +118,7 @@
           
                         <!-- Form Css End -->
                         <div class="testbox">
-    <form action="../Controllers/Update.php" method="post" enctype="multipart/form-data">
+    <form action="../Controllers/Processing.php" method="post" enctype="multipart/form-data">
         <div class="banner">
             <h1>Update a Vehicle</h1>
         </div>
