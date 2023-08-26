@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="AdminIndex.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="../AdminIndex.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item">
-                <a class="nav-link" href="AdminIndex.html">
+                <a class="nav-link" href="../AdminIndex.html">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -66,10 +66,9 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">vehicle:</h6>
-                        <a class="collapse-item" href="view/AddVehicle.php">Add vehicle</a>
-                        <a class="collapse-item" href="view/DeleteVehicle.php">Delete vehicle</a>
-                        <a class="collapse-item" href="view/UpdateVehicle.php">Update vehicle</a>
-                        
+                        <a class="collapse-item" href="AddVehicle.php">Add vehicle</a>
+                        <a class="collapse-item" href="DeleteVehicle.php">Delete vehicle</a>
+                        <a class="collapse-item" href="UpdateVehicle.php">Update vehicle</a>
                     </div>
                 </div>
             </li>
@@ -360,11 +359,12 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+                    
+                <?php include '../includes/VehicleFormUpdate.php' ?>
+                <!-- Include the JavaScript to display pop-up messages -->
 
-                    <!-- Page Heading -->
-                    <h1 class="h3 mb-4 text-gray-800">Blank Page</h1>
+                <script src="display_messages.js"></script>
 
-                </div>
                 <!-- /.container-fluid -->
 
             </div>
@@ -374,7 +374,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; C-rental 2023</span>
                     </div>
                 </div>
             </footer>
@@ -412,14 +412,14 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="../vendor/jquery/jquery.min.js"></script>
+    <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script src="../js/sb-admin-2.min.js"></script>
 
 </body>
 

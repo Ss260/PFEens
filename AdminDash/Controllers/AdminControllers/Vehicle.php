@@ -11,6 +11,39 @@ class Vehicle {
     public function __construct() {
         $this->conn = getConnection("localhost", "root", "", "rental");
     }
+    public function updateImageURLs($carID, $imageURLs) {
+        // Delete existing image URLs for the car
+        $this->deleteImageURLs($carID);
+        
+        // Insert new image URLs
+        $this->addImageURLs($carID, $imageURLs);
+    }
+    
+    public function deleteImageURLs($carID) {
+        try {
+            $stmt = $this->conn->prepare("DELETE FROM carImages WHERE vehicle_id = ?");
+            $stmt->bind_param("i", $carID);
+            $stmt->execute();
+            $stmt->close();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    public function addImageURLs($vehicleID, $imageURLs) {
+        try {
+            $stmt = $this->conn->prepare("INSERT INTO carimages (vehicle_id, image_url) VALUES (?, ?)");
+            foreach ($imageURLs as $url) {
+                $stmt->bind_param("is", $vehicleID, $url);
+                if (!$stmt->execute()) {
+                    throw new Exception("Error adding image URL: " . $stmt->error);
+                }
+            }
+            $stmt->close();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    
 
     public function addVehicle($carModel, $carType, $year, $color, $mileage, $licensePlate, $fuelType, $transmission, $seatingCapacity, $dailyRate, $availability, $location, $adminNotes, $legalDocuments, $imageURLs) {
         try {
@@ -30,18 +63,37 @@ class Vehicle {
             $stmt->close();
         }
     }
-    
-
     public function updateVehicle($carID, $carModel, $carType, $year, $color, $mileage, $licensePlate, $fuelType, $transmission, $seatingCapacity, $dailyRate, $availability, $location, $adminNotes, $legalDocuments, $imageURLs) {
         try {
             $stmt = $this->conn->prepare("UPDATE cars SET CarModel = ?, CarType = ?, Year = ?, Color = ?, Mileage = ?, LicensePlate = ?, FuelType = ?, Transmission = ?, SeatingCapacity = ?, DailyRate = ?, Availability = ?, Location = ?, AdminNotes = ?, LegalDocuments = ? WHERE CarID = ?");
             $stmt->bind_param("ssssssssssssssi", $carModel, $carType, $year, $color, $mileage, $licensePlate, $fuelType, $transmission, $seatingCapacity, $dailyRate, $availability, $location, $adminNotes, $legalDocuments, $carID);
             
             if ($stmt->execute()) {
+                
                 $this->updateImageURLs($carID, $imageURLs); // Call to updateImageURLs method
                 return true;
             } else {
                 throw new Exception("Error updating vehicle: " . $stmt->error);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        } finally {
+            $stmt->close();
+        }
+    }
+
+    
+    public function getVehicleData($carID) {
+        try {
+            $stmt = $this->conn->prepare("SELECT * FROM cars WHERE CarID = ?");
+            $stmt->bind_param("i", $carID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if ($result->num_rows > 0) {
+                return $result->fetch_assoc();
+            } else {
+                return false; // No data found for the given CarID
             }
         } catch (Exception $e) {
             throw $e;
@@ -97,39 +149,6 @@ class Vehicle {
         }
     }
     
-    private function updateImageURLs($carID, $imageURLs) {
-        // Delete existing image URLs for the car
-        $this->deleteImageURLs($carID);
-        
-        // Insert new image URLs
-        $this->addImageURLs($carID, $imageURLs);
-    }
-    
-    private function deleteImageURLs($carID) {
-        try {
-            $stmt = $this->conn->prepare("DELETE FROM carImages WHERE vehicle_id = ?");
-            $stmt->bind_param("i", $carID);
-            $stmt->execute();
-            $stmt->close();
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-        
-    private function addImageURLs($vehicleID, $imageURLs) {
-        try {
-            $stmt = $this->conn->prepare("INSERT INTO carimages (vehicle_id, image_url) VALUES (?, ?)");
-            foreach ($imageURLs as $url) {
-                $stmt->bind_param("is", $vehicleID, $url);
-                if (!$stmt->execute()) {
-                    throw new Exception("Error adding image URL: " . $stmt->error);
-                }
-            }
-            $stmt->close();
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-    
+   
 }
 ?>

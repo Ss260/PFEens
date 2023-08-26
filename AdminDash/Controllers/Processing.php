@@ -1,4 +1,8 @@
 <?php
+
+if (isset($_POST['operation'])) {
+    
+  
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['operation'] === 'AddVehicle') {
         // Extract form data
@@ -75,6 +79,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               $errorMessage = "An error occurred while deleting the vehicle: " . $e->getMessage();
           }
       }
+
+                
+}
+ 
+
 }
 ?>
 
@@ -88,7 +97,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         alert(message); // You can customize this to show a more visually appealing pop-up
     }
 
-    // Display a pop-up success message
     <?php if (!empty($successMessage)) : ?>
         displaySuccessMessage("<?php echo $successMessage; ?>");
     <?php endif; ?>
