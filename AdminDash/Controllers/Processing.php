@@ -22,27 +22,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $transmission = $_POST['Transmission'];
         $availability = (int)$_POST['Availability'];
 
-        // Handle uploaded image
-        // Get the absolute path of the directory containing the current script
-        $currentDirectory = __DIR__;
-        // Construct the upload directory path relative to the script's location
-        $uploadDirectory = $currentDirectory . '/VehImg';
- 
+      
+        $uploadDirectory = 'C:/wamp64/www/C-rental/AdminDash/Controllers/VehImg';
+
         $imageURLs = array();
-        if(isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
-             $imageCount = count($_FILES['images']['name']);
-            for($i = 0; $i < $imageCount; $i++) {
+        if (isset($_FILES['images']) && !empty($_FILES['images']['name'][0])) {
+            $imageCount = count($_FILES['images']['name']);
+            for ($i = 0; $i < $imageCount; $i++) {
                 $imageName = $_FILES['images']['name'][$i];
                 $imageTmpName = $_FILES['images']['tmp_name'][$i];
-                $imagePath =  $imageName;
-                if (move_uploaded_file($imageTmpName, $imagePath)) {
-                    $imageURLs[] = $imageName;
+                if (move_uploaded_file($imageTmpName, $uploadDirectory . '/' . $imageName)) {
+                    echo "Image moved successfully: " . $imageName . "<br>";
                 } else {
-                    echo "Error moving uploaded file: " . $_FILES['images']['error'][$i];
-                    echo "Destination Path: " . $imagePath;
-
+                    echo "Error moving uploaded file: " . $imageName . "<br>";
                 }
-                $imageURLs[] = $imagePath;
+                $imageURLs[] = $imageName;
             }
         }
 
@@ -139,43 +133,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $legalDocuments = $_POST['LegalDocuments'];
                         $availability = (int)$_POST['Availability'];
 
-                        // Get the absolute path of the directory containing the current script
-                        $currentDirectory = __DIR__;
-                        // Construct the upload directory path relative to the script's location
-                        $uploadDirectory = $currentDirectory . '/VehImg';
-                             // Handle file uploads and update images if necessary
-                             $imageNames = array();
-                             if (isset($_FILES['images']['name']) && !empty($_FILES['images']['name'][0])) {
-                                   // Loop through each uploaded image
-                                 for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
-                                     $imageName = $_FILES['images']['name'][$i];
-                                     $imageNames[] = $imageName; // Store the image name in the array
-                                     $imageTmpName = $_FILES['images']['tmp_name'][$i];
-                                     $imageType = $_FILES['images']['type'][$i];
-                             
-                                     // Generate a unique filename for the image
-                                     $uniqueFilename = uniqid() . '_' . $imageName;
-                             
-                                     // Construct the full path to the destination file
-                                     $destination = $uploadDirectory . $uniqueFilename;
-                             
-                                     // Check if the uploaded file is an image
-                                     $allowedTypes = array('image/jpeg', 'image/png', 'image/gif');
-                                     if (in_array($imageType, $allowedTypes)) {
-                                         // Move the uploaded file to the destination directory
-                                         if (move_uploaded_file($imageTmpName, $destination)) {
-                                             // Do nothing here, we're only interested in the image names
-                                         } else {
-                                             echo "Error uploading image $imageName. Please try again.";
-                                         }
-                                     } else {
-                                         echo "Unsupported file type for image $imageName.";
-                                     }
-                                 }
-                                
-                                 $vehicleObj->updateImageURLs($carID, $imageNames);
-                                 
-                             }
+                       // Get the absolute path of the directory containing the current script
+$currentDirectory = __DIR__;
+
+// Construct the upload directory path relative to the script's location
+$uploadDirectory = $currentDirectory . '/VehImg';
+
+// Handle file uploads and update images if necessary
+$imageNames = array();
+if (isset($_FILES['images']['name']) && !empty($_FILES['images']['name'][0])) {
+    // Loop through each uploaded image
+    for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
+        $imageName = $_FILES['images']['name'][$i];
+        $imageNames[] = $imageName; // Store the image name in the array
+        $imageTmpName = $_FILES['images']['tmp_name'][$i];
+        $imageType = $_FILES['images']['type'][$i];
+
+        // Generate a unique filename for the image
+        $uniqueFilename = $imageName;
+
+        // Construct the full path to the destination file
+        $destination = $uploadDirectory . '/' . $uniqueFilename;
+
+        // Check if the uploaded file is an image
+        $allowedTypes = array('image/jpeg', 'image/png', 'image/gif');
+        if (in_array($imageType, $allowedTypes)) {
+            // Move the uploaded file to the destination directory
+            if (move_uploaded_file($imageTmpName, $destination)) {
+                // Do nothing here, we're only interested in the image names
+            } else {
+                echo "Error uploading image $imageName. Please try again.";
+            }
+        } else {
+            echo "Unsupported file type for image $imageName.";
+        }
+    }
+
+    $vehicleObj->updateImageURLs($carID, $imageNames);
+}
+
                              
                         // Call the updateVehicle method
                         try {
