@@ -95,7 +95,7 @@
  
             ?>
         <div class="product-listing-m gray-bg">             
-        <div class="product-listing-img"><img src="../C-rental/img/CarImages/    <?php echo $imageURL ?>" class="img-responsive" alt="Image" /> </a> 
+        <div class="product-listing-img"><img src="AdminDash/Controllers/VehImg/<?php echo $imageURL ?>" class="img-responsive" alt="Image" /> </a> 
             </div>
             <div class="product-listing-content">
                 <h5><a href="vehical-details.php?vhid=<?php echo $carID; ?>"><?php echo $carModel; ?>, <?php echo $carType; ?></a></h5>
