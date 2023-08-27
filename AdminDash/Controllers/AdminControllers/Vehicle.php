@@ -82,25 +82,32 @@ class Vehicle {
         }
     }
 
-    
+    //to ShowData
     public function getVehicleData($carID) {
         try {
-            $stmt = $this->conn->prepare("SELECT * FROM cars WHERE CarID = ?");
+            $stmt = $this->conn->prepare("SELECT c.*, ci.image_url AS ImageURL FROM cars c LEFT JOIN carimages ci ON c.CarID = ci.vehicle_id WHERE c.CarID = ?");
             $stmt->bind_param("i", $carID);
             $stmt->execute();
             $result = $stmt->get_result();
-
+    
             if ($result->num_rows > 0) {
-                return $result->fetch_assoc();
+                $data = $result->fetch_assoc();
+                return $data;
             } else {
-                return false; // No data found for the given CarID
+                return false;  
             }
         } catch (Exception $e) {
             throw $e;
         } finally {
-            $stmt->close();
+            if ($stmt) {
+                $stmt->close();
+            }
         }
     }
+    
+    
+    
+    
     
     public function deleteVehicle($carID) {
         try {
@@ -148,7 +155,18 @@ class Vehicle {
             $stmt->close();
         }
     }
-    
+    public function countVehicles() {
+        $sql = "SELECT COUNT(*) as vehicleCount FROM cars";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            $vehicleCount = $row['vehicleCount'];
+            return $vehicleCount;
+        } else {
+            return 0;
+        }
+    }
    
 }
 ?>
