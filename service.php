@@ -65,22 +65,23 @@
     <!-- Page Header End -->
 
 
-    <!-- Car Listing Start -->
-    <?php
-        require_once 'AdminDash/Controllers/AdminControllers/Vehicle.php';
-        require_once 'AdminDash/Model/ConnectionController.php';      
-        $vehicleObj = new Vehicle();
+   <!-- Car Listing Start -->
+<?php
+require_once 'AdminDash/Controllers/AdminControllers/Vehicle.php';
+require_once 'AdminDash/Model/ConnectionController.php';      
+$vehicleObj = new Vehicle();
 
 // Get the count of vehicles
+$vehicleCount = $vehicleObj->countVehicles();
 
-        $vehicleCount = $vehicleObj->countVehicles();
-     
+// Initialize loopIndex
+$loopIndex = 0;
 
 // Generate HTML cards for each vehicle
-    for ($i = 1; $i <= 1000; $i++) {
-        try{        
+for ($i = 1; $i <= 1000; $i++) {
+    try {        
         $vehicleData = $vehicleObj->getVehicleData($i);
-        
+
         if ($vehicleData) {
             // Extract vehicle data
             $carModel = $vehicleData['CarModel'];
@@ -91,29 +92,46 @@
             $fuelType = $vehicleData['FuelType'];
             $carID = $vehicleData['CarID'];
             $imageURL = $vehicleData['ImageURL'];
-            // Generate HTML card using template
- 
+
+            // Output a new row at every third iteration
+            if ($loopIndex % 3 == 0) {
+                echo '<div class="row">';
+            }
             ?>
-        <div class="product-listing-m gray-bg">             
-        <div class="product-listing-img"><img src="AdminDash/Controllers/VehImg/<?php echo $imageURL ?>" class="img-responsive" alt="Image" /> </a> 
+            <div class="col-md-4">
+                <div class="product-card" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; background-color: #fff;">
+                    <div class="product-card-img">
+                        <img src="AdminDash/Controllers/VehImg/<?php echo $imageURL ?>" class="img-responsive" alt="Image" style="max-width: 100%; height: auto;">
+                    </div>
+                    <div class="product-card-content">
+                        <h5><a href="vehical-details.php?vhid=<?php echo $carID; ?>"><?php echo $carModel; ?>, <?php echo $carType; ?></a></h5>
+                        <p class="list-price">$<?php echo $dailyRate; ?> Per Day</p>
+                        <ul>
+                            <li><i class="fa fa-user" aria-hidden="true"></i> <?php echo $seatingCapacity; ?> seats</li>
+                            <li><i class="fa fa-calendar" aria-hidden="true"></i> <?php echo $year; ?> model</li>
+                            <li><i class="fa fa-car" aria-hidden="true"></i> <?php echo $fuelType; ?></li>
+                        </ul>
+                        <a href="vehicleDetails.php?vhid=<?php echo $carID; ?>" class="btn btn-primary">View Details <span class="fa fa-angle-right"></span></a>
+                     
+                    </div>            
+                </div>
             </div>
-            <div class="product-listing-content">
-                <h5><a href="vehical-details.php?vhid=<?php echo $carID; ?>"><?php echo $carModel; ?>, <?php echo $carType; ?></a></h5>
-                <p class="list-price">$<?php echo $dailyRate; ?> Per Day</p>
-                <ul>
-                    <li><i class="fa fa-user" aria-hidden="true"></i><?php echo $seatingCapacity; ?> seats</li>
-                    <li><i class="fa fa-calendar" aria-hidden="true"></i><?php echo $year; ?> model</li>
-                    <li><i class="fa fa-car" aria-hidden="true"></i><?php echo $fuelType; ?></li>
-                </ul>
-                <a href="vehical-details.php?vhid=<?php echo $carID; ?>" class="btn">View Details <span class="angle_arrow"><i class="fa fa-angle-right" aria-hidden="true"></i></span></a>
-            </div>
-        </div>
-        <?php
-    }} catch (Exception $e) {
+            <?php
+            // Close the row tag after every third iteration
+            if ($loopIndex % 3 == 2 || $i == $vehicleCount) {
+                echo '</div>';
+            }
+            $loopIndex++;
+        }
+    } catch (Exception $e) {
         echo "An error occurred: " . $e->getMessage();
     }
 }
-?>  
+?>
+
+ 
+          
+
     <!-- Testimonial Start -->
      
      <!-- include 'includes/Testimonial.php';

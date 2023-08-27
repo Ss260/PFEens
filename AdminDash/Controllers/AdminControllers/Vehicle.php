@@ -11,6 +11,7 @@ class Vehicle {
     public function __construct() {
         $this->conn = getConnection("localhost", "root", "", "rental");
     }
+    
     public function updateImageURLs($carID, $imageURLs) {
         // Delete existing image URLs for the car
         $this->deleteImageURLs($carID);
@@ -104,7 +105,27 @@ class Vehicle {
             }
         }
     }
-    
+    public function getVehicleImages($vehicleID) {
+        try {
+            $stmt = $this->conn->prepare("SELECT image_url FROM carimages WHERE vehicle_id = ?");
+            $stmt->bind_param("i", $vehicleID);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            
+            $imageURLs = array();
+            while ($row = $result->fetch_assoc()) {
+                $imageURLs[] = $row['image_url'];
+            }
+            
+            return $imageURLs;
+        } catch (Exception $e) {
+            throw $e;
+        } finally {
+            if ($stmt) {
+                $stmt->close();
+            }
+        }
+    }
     
     
     
@@ -166,6 +187,36 @@ class Vehicle {
         } else {
             return 0;
         }
+    }
+    public function filterVehicles($minPrice, $maxPrice, $availability) {
+        $query = "SELECT * FROM cars
+                  WHERE DailyRate >= $minPrice
+                  AND DailyRate <= $maxPrice
+                  AND Availability = $availability";
+
+        $result = mysqli_query($this->conn, $query);
+
+        $vehicles = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $vehicles[] = $row;
+        }
+
+        return $vehicles;
+    }
+
+    public function getRecentlyAddedVehicles($limit) {
+        $query = "SELECT * FROM cars
+                  ORDER BY CreatedAt DESC
+                  LIMIT $limit";
+
+        $result = mysqli_query($this->conn, $query);
+
+        $vehicles = array();
+        while ($row = mysqli_fetch_assoc($result)) {
+            $vehicles[] = $row;
+        }
+
+        return $vehicles;
     }
    
 }
