@@ -22,7 +22,7 @@
                    
                     <a href="contact.html" class="nav-item nav-link">Contact</a>
                 </div>
-                <a href="service.html" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Rent a Vehicule<i class="fa fa-arrow-right ms-3"></i></a>
+                <a href="service.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Rent a Vehicule<i class="fa fa-arrow-right ms-3"></i></a>
             </div>
         </nav>
         <!-- Navbar End -->

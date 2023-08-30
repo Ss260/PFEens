@@ -123,7 +123,7 @@
 }
 
 #bookNowSection button {
-    background-color: #C4A484;
+    background-color: #65350F   ;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -133,7 +133,7 @@
 }
 
 #bookNowSection button:hover {
-    background-color: #65350F;
+    background-color: #C4A484;
 }
 
     </style>
