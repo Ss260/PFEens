@@ -58,7 +58,7 @@
         object-fit: contain; /* Fit the image within the container */
     }
 </style>
-
+ 
 <style>
         body {
             font-family: Arial, sans-serif;
@@ -137,7 +137,7 @@
 }
 
     </style>
-
+ 
 <body>
  <!-- Spinner Start -->
   
@@ -197,8 +197,28 @@ if (isset($_GET['vhid']) && is_numeric($_GET['vhid'])) {
         $vehicleObj = new Vehicle();
         // Fetch the vehicle data
         $result = $vehicleObj->getVehicleData($carID);
+ // Default values for total amount and currency
+ $totalAmountDisplay = "0 Dirhams";
+ $currency = "Dirhams"; // Change to the appropriate currency text
+ $totalAmount = 0;
+
+ // Calculate the total amount based on the selected dates and car price
+ if (isset($_POST['fromDate']) && isset($_POST['toDate'])) {
+     $carPrice = floatval($result['DailyRate']);
+     $pickupDate = new DateTime($_POST['fromDate']);
+     $returnDate = new DateTime($_POST['toDate']);
+     $days = $returnDate->diff($pickupDate)->days;
+     $totalAmount = $carPrice * $days;
+     $carID = $_GET['vhid'];
+
+     // Update the total amount and display text
+     $totalAmountDisplay = $totalAmount . " " . $currency;
+     
+ }
+        
     }
     ?>
+        <!-- Displaying Car Details -->
 
 <section class="listing-detail">
     <div class="container">
@@ -240,23 +260,75 @@ if (isset($_GET['vhid']) && is_numeric($_GET['vhid'])) {
                     <p><?php echo htmlentities($result['AdminNotes']); ?></p>
                 </div>
             </div>
+            <!-- Book now Section -->
             <div class="col-md-3" id="bookNowSection">
-                    <form action="book_car.php" method="post">
-                        <label for="fromDate">From:</label>
-                        <input type="date" id="fromDate" name="fromDate" required>
-                        <br>
-                        <label for="toDate">To:</label>
-                        <input type="date" id="toDate" name="toDate" required>
-                        <br>
-                        <button type="submit" class="btn btn-primary">Book Now</button>
-                    </form>
-                </div>
+                <form action="AdminDash/includes/BookForm.php" method="post">
+                    <label for="fromDate">From:</label>
+                    <input type="date" id="fromDate" name="fromDate" required>
+                    <br>
+                    <label for="toDate">To:</label>
+                    <input type="date" id="toDate" name="toDate" required>
+                    <br>
+                    <input type="hidden" name="totalAmount" id="totalAmount" value="<?php echo  $totalAmount; ?>"> 
+
+                    <input type="hidden" name="carID" id="carID" value="<?php echo htmlentities($result['CarID']); ?>">
+                    <p>Total Amount: <span id="totalAmountDisplay"><?php echo $totalAmountDisplay; ?></span></p>
+                    <button type="submit" class="btn btn-primary">Book Now></button>
+                </form>
+            </div>
+
+
         </div>
     </div>
 </section>
 
+ <!-- Place this script block before the closing </body> tag -->
+ <script>
+    // Function to calculate and update the total amount
+    function updateTotalAmount() {
+        // Get the car price from PHP (assuming it's echoed as a JavaScript variable)
+        const carPrice = <?php echo floatval($result['DailyRate']); ?>;
+
+        // Get the selected dates from the input fields
+        const fromDateInput = document.getElementById("fromDate");
+        const toDateInput = document.getElementById("toDate");
+        const fromDate = new Date(fromDateInput.value);
+        const toDate = new Date(toDateInput.value);
+
+        // Calculate the number of days between the two dates
+        const days = Math.ceil((toDate - fromDate) / (1000 * 60 * 60 * 24));
+
+        // Calculate the total amount
+        const totalAmount = carPrice * days;
+
+        // Update the hidden input field
+        const totalAmountInput = document.getElementById("totalAmount");
+        totalAmountInput.value = totalAmount; // Update the value attribute
+
+        // Update the total amount display
+        const totalAmountDisplay = document.getElementById("totalAmountDisplay");
+        totalAmountDisplay.textContent = totalAmount.toFixed(2) + " <?php echo $currency; ?>";
+    }
+
+    // Add event listeners to the date input fields
+    const fromDateInput = document.getElementById("fromDate");
+    const toDateInput = document.getElementById("toDate");
+
+    fromDateInput.addEventListener("change", updateTotalAmount);
+    toDateInput.addEventListener("change", updateTotalAmount);
+
+    // Initially calculate and display the total amount (for the default dates, if any)
+    updateTotalAmount();
+</script>
 
 
+
+ 
+ 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body> 
+  
 
 
 
@@ -265,7 +337,6 @@ if (isset($_GET['vhid']) && is_numeric($_GET['vhid'])) {
     include 'includes/Footer.php'
   ?>
     <!-- Include Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
  
 

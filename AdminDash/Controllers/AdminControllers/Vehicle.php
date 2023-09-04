@@ -218,6 +218,20 @@ class Vehicle {
 
         return $vehicles;
     }
-   
+    public function updateAvailability($carID, $availability) {
+        try {
+            $query = "UPDATE cars SET Availability = ? WHERE CarID = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param("ii", $availability, $carID);
+
+            if ($stmt->execute()) {
+                return true; // Update successful
+            } else {
+                return false; // Error occurred during update
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 }
 ?>
