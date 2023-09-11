@@ -1,6 +1,8 @@
 <?php
 require_once '../Controllers/AdminControllers/Vehicle.php';
 require_once '../Model/ConnectionController.php';
+require_once 'AdminControllers/Notifications.php';
+
 if (isset($_POST['operation'])) {
     
   
@@ -51,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $result = $vehicleObj->addVehicle($carModel, $carType, $year, $color, $mileage, $licensePlate, $fuelType, $transmission, $seatingCapacity, $dailyRate, $availability, $location, $adminNotes, $legalDocuments, $imageURLs);
             if ($result) {
                 $successMessage = "Vehicle added successfully.";
+                $notif = new Notifications();
+                $notif->createNotification("Adding Vehicle","A new Vehicle has been Added");
             } else {
                 $errorMessage = "Error adding vehicle. Please try again.";
             }
@@ -76,6 +80,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   
               if ($result) {
                   $successMessage = "Vehicle deleted successfully.";
+                  $notif = new Notifications();
+                $notif->createNotification("Deleting Vehicle","A new vehicle has been Deleted");
               } else {
                   $errorMessage = "Error deleting vehicle. Please check the Car ID and try again.";
               }
@@ -184,6 +190,8 @@ if (isset($_FILES['images']['name']) && !empty($_FILES['images']['name'][0])) {
                             if ($updateResult) { 
                                 // Display success message or redirect to a success page
                                 $successMessage = "Vehicle Updated successfully.";
+                                $notif = new Notifications();
+                                $notif->createNotification("Updating Request","A Vehicle has been Updated");
                                 
                             } else {
                                 // Display error message or handle the error

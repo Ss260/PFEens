@@ -83,51 +83,64 @@
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Maintenance Table</h6>
     </div>
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                <thead>
-                    <tr>
-                        <th>Task ID</th>
-                        <th>Car ID</th>
-                        <th>Task Type</th>
-                        <th>Due Date</th>
-                        <th>Completed</th>
-                        <th>Completion Date</th>
-                        
-                     </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                    <th>Task ID</th>
-                        <th>Car ID</th>
-                        <th>Task Type</th>
-                        <th>Due Date</th>
-                        <th>Completed</th>
-                        <th>Completion Date</th>
-                     </tr>
-                </tfoot>
-                <tbody>
-                    <?php foreach ($maintenancelog as $maintenance): ?>
-                        <tr>
-                            <td><?php echo $maintenance['TaskID']; ?></td>
-                            <td><?php echo $maintenance['CarID']; ?></td>
-                            <td><?php echo $maintenance['TaskType']; ?></td>
-                            <td><?php echo $maintenance['DueDate']; ?></td>
-                            <td><?php echo $maintenance['Completed']; ?></td>
-                            <td><?php echo $maintenance['CompletionDate']; ?></td>
+    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Task ID</th>
+            <th>Car ID</th>
+            <th>Task Type</th>
+            <th>Due Date</th>
+            <th>Completed</th>
+            <th>Completion Date</th>
+            <th>Action</th> <!-- Add a new column for buttons -->
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Task ID</th>
+            <th>Car ID</th>
+            <th>Task Type</th>
+            <th>Due Date</th>
+            <th>Completed</th>
+            <th>Completion Date</th>
+            <th>Action</th>
+        </tr>
+    </tfoot>
+    <tbody>
+        <?php foreach ($maintenancelog as $maintenance): ?>
+            <tr>
+                <td><?php echo $maintenance['TaskID']; ?></td>
+                <td><?php echo $maintenance['CarID']; ?></td>
+                <td><?php echo $maintenance['TaskType']; ?></td>
+                <td><?php echo $maintenance['DueDate']; ?></td>
+                <td><?php echo $maintenance['Completed']; ?></td>
+                <td><?php echo $maintenance['CompletionDate']; ?></td>
+                <td>
+    <!-- Done Button -->
+    <form action="../Controllers/ProcessingMaintenance.php" method="POST" style="display: inline;">
+        <input type="hidden" name="taskID" value="<?php echo $maintenance['TaskID']; ?>">
+        <button type="submit" class="btn btn-success btn-sm" name="doneButton">Done</button>
+    </form>
 
-                         </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
- 
+    <!-- Delete Button -->
+    <form action="../Controllers/ProcessingMaintenance.php" method="POST" style="display: inline;">
+        <input type="hidden" name="taskID" value="<?php echo $maintenance['TaskID']; ?>">
+        <button type="submit" class="btn btn-danger btn-sm" name="deleteButton">Delete</button>
+    </form>
+</td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
+</table>
+
                      
                 </div>
                 <!-- /.container-fluid -->
+          <!-- Add Task Button -->
+<div class="card-footer">
+    <a class="btn btn-primary" href="../includes/MaintenanceForm.php">Add Task</a>
+</div>
+
 
             </div>
             <!-- End of Main Content -->
@@ -182,8 +195,8 @@
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+    
 
 </body>
 
 </html>
- 

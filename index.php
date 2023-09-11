@@ -31,6 +31,7 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    
 </head>
 
 <body>
@@ -73,27 +74,7 @@
         <!-- Topbar End -->
     
     
-        <!-- Navbar Start -->
-        <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0">
-            <a href="index.html" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
-                <h2 class="m-0 text-primary">C-rental</h2>
-            </a>
-            <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto p-4 p-lg-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <!-- <a href="service.html" class="nav-item nav-link">Service</a> -->
-                    <a href="testimonial.html" class="nav-item nav-link">Testimonial</a>
-                  
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
-                </div>
-                <a href="service.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Rent a Vehicule<i class="fa fa-arrow-right ms-3"></i></a>
-            </div>
-        </nav>
-        <!-- Navbar End -->
+       <?php include 'includes/NavBar.php' ?>
 
 
     <!-- Carousel Start -->
@@ -125,7 +106,7 @@
                                 <h1 class="display-3 text-white animated slideInDown mb-4">Choose a car</h1>
                                 <p class="fs-5 fw-medium text-white mb-4 pb-2">Choose the vehicule well suited for you from our various rich collection</p>
                                 <a href="about.html" class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft">Read More</a>
-                                <a href="service.html" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Rent a car</a>
+                                <a href="service.php" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Rent a car</a>
                             </div>
                         </div>
                     </div>
@@ -244,10 +225,76 @@
             </div>
         </div>
     </div>
+    <center><h1 class="display-5 mb-5">Car Collection</h1></center>
+    <?php
+require_once 'AdminDash/Controllers/AdminControllers/Vehicle.php';
+require_once 'AdminDash/Model/ConnectionController.php';      
+$vehicleObj = new Vehicle();
+
+$loopIndex = 0;
+$vehicles = $vehicleObj->getAllRecentVehicles(); // Fetch the 6 most recent vehicles
+  //var_dump($vehicles);
+  foreach ($vehicles as $vehicle) {
+    // Extract vehicle data
+    $carID = $vehicle['CarID'];
+    $carModel = $vehicle['CarModel'];
+    $carType = $vehicle['CarType'];
+    $dailyRate = $vehicle['DailyRate'];
+    $seatingCapacity = $vehicle['SeatingCapacity'];
+    $year = $vehicle['Year'];
+    $fuelType = $vehicle['FuelType'];
+    $availability = $vehicle['Availability']; // Added Availability
+    
+    // Determine the availability status text
+    $availabilityText = ($availability == 1) ? 'Available' : 'Unavailable';
+
+    // Check if 'image_urls' array exists and has at least one image
+    if (!empty($vehicle['image_urls'])) {
+        $firstImageURL = 'AdminDash/Controllers/VehImg/' . $vehicle['image_urls'][0];
+    } else {
+        // If there are no images, you can display a default image here
+        $firstImageURL = 'path_to_default_image.jpg';
+    }
+
+    // Output a new row at every third iteration
+    if ($loopIndex % 3 == 0) {
+        echo '<div class="row">';
+    }
+    ?>
+    <div class="col-md-4">
+    <div class="product-card" style="border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; background-color: #fff;">
+        <div class="product-card-img">
+            <img src="<?php echo $firstImageURL; ?>" class="img-responsive" alt="Image" style="max-width: 100%; height: auto;">
+        </div>
+        <div class="product-card-content">
+            <h5><a href="vehicleDetails.php?vhid=<?php echo $carID; ?>"><?php echo $carModel; ?>, <?php echo $carType; ?></a></h5>
+            <p class="list-price">$<?php echo $dailyRate; ?> Per Day</p>
+            <ul>
+                <li><i class="fa fa-user" aria-hidden="true"></i> <?php echo $seatingCapacity; ?> seats</li>
+                <li><i class="fa fa-calendar" aria-hidden="true"></i> <?php echo $year; ?> model</li>
+                <li><i class="fa fa-car" aria-hidden="true"></i> <?php echo $fuelType; ?></li>
+                <li><i class="fa fa-check-circle" aria-hidden="true"></i> <?php echo $availabilityText; ?></li> <!-- Display Availability -->
+            </ul>
+            <a href="vehicleDetails.php?vhid=<?php echo $carID; ?>" class="btn btn-primary">View Details <span class="fa fa-angle-right"></span></a>
+        </div>            
+    </div>
+</div>
+<?php
+    // Close the row tag after every third iteration
+    if ($loopIndex % 3 == 2 || $loopIndex == count($vehicles) - 1) {
+        echo '</div>';
+    }
+    $loopIndex++; // Increment the loop index
+}
+?>
+
+
+
+
     <!-- About End -->
 
 
-    <!-- Service Start -->
+    <!-- Service Start
     <div class="container-xxl py-5">
         <div class="container">
             <div class="section-title text-center">
@@ -328,7 +375,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- Service End -->
 
 
@@ -709,9 +756,9 @@
                     <h4 class="text-light mb-4">Quick Links</h4>
                     <a class="btn btn-link" href="about.html">About Us</a>
                     <a class="btn btn-link" href="contact.html">Contact Us</a>
-                    <a class="btn btn-link" href="service.html">Our Services</a>
+                    <a class="btn btn-link" href="service.php">Our Services</a>
                     <!-- <a class="btn btn-link" href="">Terms & Condition</a> -->
-                    <a class="btn btn-link" href="login.html">Admin Login</a>
+                    <a class="btn btn-link" href="/C-rental/AdminDash/login.php">Admin Login</a>
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Newsletter</h4>

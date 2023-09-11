@@ -19,7 +19,12 @@
 
     <!-- Custom styles for this template-->
     <link href="../css/sb-admin-2.min.css" rel="stylesheet">
+    <style>
+        .table-responsive {
+            overflow-x: auto;
+        }
 
+    </style>
 </head>
 
 <body id="page-top">
@@ -158,7 +163,7 @@
                             <!-- Display the table of vehicles -->
                          
                     <!-- Form Example-->
-                    <div class="testbox">
+                    <div class="testbox" class="table-responsive">
                         <form action="../Controllers/Processing.php"  method="post" enctype="multipart/form-data">
                           <div class="banner">
                             <h1>Delete Vehicle</h1>
@@ -203,9 +208,7 @@
                                 <th>Fuel Type</th>
                                 <th>Transmission</th>
                                 <th>Seating Capacity</th>
-                                <th>Daily Rate</th>
-                                <th>Availability</th>
-                                <th>Location</th>
+                                  <th>Location</th>
                                 <th>Admin Notes</th>
                                 <th>Legal Documents</th>
                             </tr>
@@ -222,9 +225,7 @@
                                 <td><?php echo $vehicle['FuelType']; ?></td>
                                 <td><?php echo $vehicle['Transmission']; ?></td>
                                 <td><?php echo $vehicle['SeatingCapacity']; ?></td>
-                                <td><?php echo $vehicle['DailyRate']; ?></td>
-                                <td><?php echo ($vehicle['Availability'] == 0) ? 'Yes' : 'No'; ?></td>
-                                <td><?php echo $vehicle['Location']; ?></td>
+                                  <td><?php echo $vehicle['Location']; ?></td>
                                 <td><?php echo $vehicle['AdminNotes']; ?></td>
                                 <td><?php echo $vehicle['LegalDocuments']; ?></td>
                             </tr>

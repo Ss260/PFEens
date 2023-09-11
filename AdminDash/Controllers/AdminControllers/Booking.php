@@ -150,6 +150,66 @@ class Booking{
             }
         }
     }
+
+    public function calculateMonthlyEarnings() {
+        // Calculate the first day of the current month
+        $firstDayOfMonth = date("Y-m-01");
+
+        // Calculate the last day of the current month
+        $lastDayOfMonth = date("Y-m-t");
+
+        // SQL query to calculate earnings for the current month with "reserved" status
+        $sql = "SELECT SUM(TotalAmount) AS monthly_earnings
+                FROM booking
+                WHERE BookingStatus = 'reserved'
+                AND PickupDateTime BETWEEN '$firstDayOfMonth' AND '$lastDayOfMonth'";
+
+        $result = $this->conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['monthly_earnings'];
+        } else {
+            return 0; // No earnings for the current month
+        }
+    }
+    public function calculateAnnualEarnings() {
+        // Calculate the first day of the current year
+        $firstDayOfYear = date("Y-01-01");
+
+        // Calculate the last day of the current year
+        $lastDayOfYear = date("Y-12-31");
+
+        // SQL query to calculate earnings for the current year with "reserved" status
+        $sql = "SELECT SUM(TotalAmount) AS annual_earnings
+                FROM booking
+                WHERE BookingStatus = 'reserved'
+                AND PickupDateTime BETWEEN '$firstDayOfYear' AND '$lastDayOfYear'";
+
+        $result = $this->conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['annual_earnings'];
+        } else {
+            return 0; // No earnings for the current year
+        }
+    }
+    public function countPendingBookings() {
+        // SQL query to count bookings where "BookingStatus" is set to "Pending"
+        $sql = "SELECT COUNT(*) AS pending_booking_count
+                FROM booking
+                WHERE BookingStatus = 'Pending'";
+
+        $result = $this->conn->query($sql);
+
+        if ($result && $result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['pending_booking_count'];
+        } else {
+            return 0; // No pending bookings found
+        }
+    }
     
 }
 ?>

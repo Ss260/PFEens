@@ -55,10 +55,9 @@
             <h1 class="display-3 text-white mb-3 animated slideInDown">Car Collection</h1>
             <nav aria-label="breadcrumb animated slideInDown">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a class="text-white" href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a class="text-white" href="#">Pages</a></li>
-                    <li class="breadcrumb-item text-white active" aria-current="page">Service</li>
-                </ol>
+                    <li class="breadcrumb-item"><a class="text-white" href="index.php">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-white" href="service.php">Car Collection</a></li>
+                 </ol>
             </nav>
         </div>
     </div>
@@ -66,6 +65,7 @@
 
 
    <!-- Car Listing Start -->
+  <!-- Car Listing Start -->
 <?php
 require_once 'AdminDash/Controllers/AdminControllers/Vehicle.php';
 require_once 'AdminDash/Model/ConnectionController.php';      
@@ -104,7 +104,7 @@ for ($i = 1; $i <= 1000; $i++) {
                         <img src="AdminDash/Controllers/VehImg/<?php echo $imageURL ?>" class="img-responsive" alt="Image" style="max-width: 100%; height: auto;">
                     </div>
                     <div class="product-card-content">
-                        <h5><a href="vehical-details.php?vhid=<?php echo $carID; ?>"><?php echo $carModel; ?>, <?php echo $carType; ?></a></h5>
+                        <h5><a href="vehicleDetails.php?vhid=<?php echo $carID; ?>"><?php echo $carModel; ?>, <?php echo $carType; ?></a></h5>
                         <p class="list-price">$<?php echo $dailyRate; ?> Per Day</p>
                         <ul>
                             <li><i class="fa fa-user" aria-hidden="true"></i> <?php echo $seatingCapacity; ?> seats</li>
@@ -129,14 +129,13 @@ for ($i = 1; $i <= 1000; $i++) {
 }
 ?>
 
+
  
           
 
-    <!-- Testimonial Start -->
-     
-     <!-- include 'includes/Testimonial.php';
-    include 'includes/Footer.php' -->
-     
+    <?php
+    include_once 'includes/Footer.php';
+    ?>
            
 
    

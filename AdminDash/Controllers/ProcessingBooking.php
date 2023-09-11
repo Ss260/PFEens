@@ -2,7 +2,9 @@
  require_once '../Controllers/AdminControllers/Booking.php';
  require_once 'ClientControllers/client.php'; 
  require_once 'AdminControllers/Vehicle.php';
+ require_once 'AdminControllers/Notifications.php';
  
+
  
 
         
@@ -26,7 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Create a Client instance and add the client
     $clientObj = new Client();
     $clientID = $clientObj->AddClient($firstName, $lastName, $email, $phoneNumber);
-    
+    //Notification :
+        $notif = new Notifications();
     if ($clientID) { 
     // Create a Booking instance and add the booking
     $bookingObj = new Booking();
@@ -47,6 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo '<script>console.log("Success Message: ' . $successMessage . '");</script>';
         
         $clientObj->sendBookingEmailConfirmation($email, $fullname, $bookingID, $carModel, $fromDate, $toDate, $totalAmount, $pickupLocation, $returnLocation);
+        $notif->createNotification("Booking Request","A new Booking Request has been received");
         // Redirect back to the vehicle details page after a short delay
         echo '<script>
                 setTimeout(function() {

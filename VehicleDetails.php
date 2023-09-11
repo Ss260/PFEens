@@ -123,7 +123,7 @@
 }
 
 #bookNowSection button {
-    background-color: #65350F   ;
+
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -132,9 +132,7 @@
     transition: background-color 0.3s;
 }
 
-#bookNowSection button:hover {
-    background-color: #C4A484;
-}
+ 
 
     </style>
  
@@ -197,6 +195,10 @@ if (isset($_GET['vhid']) && is_numeric($_GET['vhid'])) {
         $vehicleObj = new Vehicle();
         // Fetch the vehicle data
         $result = $vehicleObj->getVehicleData($carID);
+        $availability = $result['Availability']; // Added Availability
+    
+    // Determine the availability status text
+    $availabilityText = ($availability == 1) ? 'Available' : 'Unavailable';
  // Default values for total amount and currency
  $totalAmountDisplay = "0 Dirhams";
  $currency = "Dirhams"; // Change to the appropriate currency text
@@ -253,6 +255,12 @@ if (isset($_GET['vhid']) && is_numeric($_GET['vhid'])) {
                             <h5><?php echo htmlentities($result['DailyRate']); ?></h5>
                             <p>Price per Day</p>
                         </li>
+                        <li>
+                            <i class="fa fa-check-circle" aria-hidden="true"></i>
+                            <h5><?php echo $availabilityText; ?></h5>
+                            <p>Availability</p> 
+                        </li> <!-- Display Availability -->
+
                     </ul>
                 </div>
                 <div class="description">

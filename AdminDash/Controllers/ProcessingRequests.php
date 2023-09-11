@@ -2,6 +2,7 @@
 require_once 'AdminControllers/Booking.php'; 
 require_once 'AdminControllers/Vehicle.php';  
 require_once 'ClientControllers/client.php';  
+require_once 'AdminControllers/Notifications.php';  
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['booking_id']) && isset($_POST['operation'])) {
@@ -41,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($carUpdated && $bookingStatusUpdated) {
                     $clientObj->sendBookingAcceptationEmail($email,$fullName,$bookingID,$CarModel,$pickupDateTime,$returnDateTime,$totalAmount,$pickupLocation,$returnLocation);
                 echo '<script>alert("Booking accepted successfully!A mail was sent to the client");</script>';
+                $notif->createNotification("Request Handling","Booking ID : ".$bookingID." has been Accepted");
             } else {
                 // Handle the case where updates failed
                 echo '<script>alert("Error accepting booking. Please try again.");</script>';
@@ -51,6 +53,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $clientObj->sendBookingRefusalEmail($email,$fullName,$bookingID);
 
                 echo '<script>alert("Booking Refused! A mail was sent to the client");</script>';
+                $notif->createNotification("Request Handling","Booking ID : ".$bookingID." has been Refused");
+
             } else {
                 $errorMessage = "Error updating booking status to 'Refused'";
             }

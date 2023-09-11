@@ -18,7 +18,8 @@
 
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 </head>
 <body>
       <!-- Sidebar -->
@@ -73,7 +74,7 @@
             <h6 class="collapse-header">Tables:</h6>
             <a class="collapse-item" href="/C-rental/AdminDash/view/VehiclesTab.php">Vehicles</a>
             <a class="collapse-item" href="/C-rental/AdminDash/view/BookingsTab.php">Bookings</a>
-            <a class="collapse-item" href="/C-rental/AdminDash/view/LogsTab.php">Logs</a>
+            <!-- <a class="collapse-item" href="/C-rental/AdminDash/view/LogsTab.php">Logs</a> -->
             <a class="collapse-item" href="/C-rental/AdminDash/view/maintenancetasks.php">Maintenance</a>
             <a class="collapse-item" href="/C-rental/AdminDash/view/ClientsTab.php">Clients</a>
         </div>
@@ -92,8 +93,8 @@
         data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Custom Utilities:</h6>
-            <a class="collapse-item" href="utilities-color.html">Settings</a>
-            <a class="collapse-item" href="utilities-border.html">Profile</a>
+            <a class="collapse-item" href="/C-rental/AdminDash/view/AdminSettings.php">Admin Management</a>
+            <!-- <a class="collapse-item" href="utilities-border.html">Profile</a> -->
             <a class="collapse-item" href="utilities-animation.html">Chart Settings</a>
             <!-- <a class="collapse-item" href="utilities-other.html">Other</a> -->
         </div>
@@ -216,67 +217,77 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Alerts -->
-            <li class="nav-item dropdown no-arrow mx-1">
-                <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fas fa-bell fa-fw"></i>
-                    <!-- Counter - Alerts -->
-                    <span class="badge badge-danger badge-counter">3+</span>
-                </a>
-                <!-- Dropdown - Alerts -->
-                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                    aria-labelledby="alertsDropdown">
-                    <h6 class="dropdown-header">
-                        Alerts Center
-                    </h6>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="mr-3">
-                            <div class="icon-circle bg-primary">
-                                <i class="fas fa-file-alt text-white"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="small text-gray-500">December 12, 2019</div>
-                            <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                        </div>
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="mr-3">
-                            <div class="icon-circle bg-success">
-                                <i class="fas fa-donate text-white"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="small text-gray-500">December 7, 2019</div>
-                            $290.29 has been deposited into your account!
-                        </div>
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
-                        <div class="mr-3">
-                            <div class="icon-circle bg-warning">
-                                <i class="fas fa-exclamation-triangle text-white"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="small text-gray-500">December 2, 2019</div>
-                            Spending Alert: We've noticed unusually high spending for your account.
-                        </div>
-                    </a>
-                    <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-                </div>
-            </li>
+         <!-- Nav Item - Alerts -->
+<li class="nav-item dropdown no-arrow mx-1">
+    <a class="nav-link dropdown-toggle" href="#" id="alertsDropdownToggle" role="button"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <i class="fas fa-bell fa-fw"></i>
+        <!-- Counter - Alerts -->
+        <span class="badge badge-danger badge-counter">5+</span>
+    </a>
+    <!-- Dropdown - Alerts -->
+    <script>
+    $(document).ready(function() {
+        // Initially hide the notification container
+        $("#notificationsContainer").hide();
 
+        // Click event to toggle the visibility of the notification container
+        $("#alertsDropdownToggle").on("click", function(e) {
+            e.preventDefault();
+            $("#notificationsContainer").toggle();
+        });
+
+        // Close the notification container when clicking outside of it
+        $(document).on("click", function(e) {
+            if (
+                !$("#alertsDropdownToggle").is(e.target) &&
+                !$("#notificationsContainer").is(e.target) &&
+                $("#notificationsContainer").has(e.target).length === 0
+            ) {
+                $("#notificationsContainer").hide();
+            }
+        });
+    });
+    console.log("JavaScript code executed");
+
+    </script>
+
+     
+
+    <!-- Notification container -->
+    <div id="notificationsContainer" class="dropdown-menu dropdown-menu-right shadow animated--grow-in">
+        <?php 
+            include __DIR__ . '/../Controllers/AdminControllers/Notifications.php';
+            $notificationsObj = new Notifications();
+            $notifications = $notificationsObj->getNotifications();
+            
+            foreach ($notifications as $notification) {
+                echo '<a class="dropdown-item d-flex align-items-center" href="#">';
+                echo '<div class="mr-3">';
+                echo '<div class="icon-circle bg-primary">';
+                // Add an icon based on the notification type, if needed
+                echo '<i class="fas fa-file-alt text-white"></i>';
+                echo '</div>';
+                echo '</div>';
+                echo '<div>';
+                echo '<div class="small text-gray-500">' . $notification['Timestamp'] . '</div>';
+                echo '<span class="font-weight-bold">' . $notification['Message'] . '</span>';
+                echo '</div>';
+                echo '</a>';
+            }
+        ?>
+    </div>
+</li>
             <!-- Nav Item - Messages -->
-            <li class="nav-item dropdown no-arrow mx-1">
+            <!-- <li class="nav-item dropdown no-arrow mx-1">
                 <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-envelope fa-fw"></i>
-                    <!-- Counter - Messages -->
+                    Counter - Messages
                     <span class="badge badge-danger badge-counter">7</span>
                 </a>
-                <!-- Dropdown - Messages -->
-                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                Dropdown - Messages
+                 <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                     aria-labelledby="messagesDropdown">
                     <h6 class="dropdown-header">
                         Message Center
@@ -316,8 +327,8 @@
                                 the progress so far, keep up the good work!</div>
                             <div class="small text-gray-500">Morgan Alvarez · 2d</div>
                         </div>
-                    </a>
-                    <a class="dropdown-item d-flex align-items-center" href="#">
+                    </a> -->
+                    <!-- <a class="dropdown-item d-flex align-items-center" href="#">
                         <div class="dropdown-list-image mr-3">
                             <img class="rounded-circle" src="https://source.unsplash.com/Mv9hjnEUHR4/60x60"
                                 alt="...">
@@ -333,7 +344,7 @@
                 </div>
             </li>
 
-            <div class="topbar-divider d-none d-sm-block"></div>
+            <div class="topbar-divider d-none d-sm-block"></div>  -->
 
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
@@ -341,23 +352,23 @@
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
                     <img class="img-profile rounded-circle"
-                        src="img/undraw_profile.svg">
+                        src="/AdminDash/img/undraw_profile.svg">
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                     aria-labelledby="userDropdown">
-                    <a class="dropdown-item" href="#">
+                    <!-- <a class="dropdown-item" href="#">
                         <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                         Profile
-                    </a>
-                    <a class="dropdown-item" href="#">
+                    </a> -->
+                    <a class="dropdown-item" href="/C-rental/AdminDash/view/AdminSettings.php">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                         Settings
                     </a>
-                    <a class="dropdown-item" href="#">
+                    <!-- <a class="dropdown-item" href="#">
                         <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                         Activity Log
-                    </a>
+                    </a> -->
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>

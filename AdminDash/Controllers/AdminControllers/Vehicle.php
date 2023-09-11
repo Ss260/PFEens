@@ -105,6 +105,31 @@ class Vehicle {
             }
         }
     }
+    public function getAllRecentVehicles() {
+        $query = "SELECT c.*, GROUP_CONCAT(ci.image_url) AS image_urls
+                  FROM cars c
+                  LEFT JOIN carimages ci ON c.CarID = ci.vehicle_id
+                  GROUP BY c.CarID
+                  LIMIT 6";
+    
+        $result = mysqli_query($this->conn, $query);
+    
+        if ($result) {
+            $vehicles = [];
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Extract the image URLs and add them to the vehicle data
+                $row['image_urls'] = explode(',', $row['image_urls']);
+                $vehicles[] = $row;
+            }
+            return $vehicles;
+        } else {
+            echo "Error: " . mysqli_error($this->conn);
+            return [];
+        }
+    }
+    
+    
+    
     public function getVehicleImages($vehicleID) {
         try {
             $stmt = $this->conn->prepare("SELECT image_url FROM carimages WHERE vehicle_id = ?");
