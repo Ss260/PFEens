@@ -136,7 +136,15 @@
         <i class="fas fa-fw fa-chart-area"></i>
         <span>Pending Requests</span></a>
 </li>
-
+<!-- Heading -->
+<div class="sidebar-heading">
+   Managing Tasks
+</div>
+<li class="nav-item">
+    <a class="nav-link" href="/C-rental/AdminDash/view/ManagingTasks.php">
+        <i class="fas fa-fw fa-cog"></i>
+        <span>Live Tasks</span></a>
+</li>
 <!-- Nav Item - Tables -->
 <!-- <li class="nav-item">
     <a class="nav-link" href="tables.html">

@@ -12,7 +12,7 @@ class Maintenance{
     }
    public function viewMaintenanceLog(){
     try {
-        $query = "SELECT * FROM maintenancetasks";
+        $query = "SELECT * FROM maintenancetasks  ";
         $result = $this->conn->query($query);
 
         $bookingData = array(); 
@@ -27,7 +27,9 @@ class Maintenance{
     } catch (Exception $e) {
         throw $e;
     }
+    
    } 
+   
    public function insertMaintenanceLog($carID, $taskType, $dueDate) {
     $completed = 0; // Set Completed to 0 by default
     $completionDate = null; // Set CompletionDate to null by default
@@ -81,7 +83,25 @@ public function countIncompleteTasks() {
 }
 
 
+public function viewUncompletedTasks(){
+    try {
+        $query = "SELECT * FROM maintenancetasks where Completed=0";
+        $result = $this->conn->query($query);
 
+        $bookingData = array(); 
+
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $bookingData[] = $row;
+            }
+        }
+
+        return $bookingData;
+    } catch (Exception $e) {
+        throw $e;
+    }
+    
+   } 
 
 
 

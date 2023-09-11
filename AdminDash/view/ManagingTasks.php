@@ -76,7 +76,7 @@
                     <?php
     include_once '../Controllers/AdminControllers/Maintenance.php';
       $MainObj = new Maintenance;
-      $maintenancelog= $MainObj->viewMaintenanceLog();
+      $maintenancelog= $MainObj->viewUncompletedTasks();
 
       ?>
       <div class="card shadow mb-4">
@@ -92,6 +92,7 @@
             <th>Due Date</th>
             <th>Completed</th>
             <th>Completion Date</th>
+            <th>Action</th> <!-- Add a new column for buttons -->
         </tr>
     </thead>
     <tfoot>
@@ -102,6 +103,7 @@
             <th>Due Date</th>
             <th>Completed</th>
             <th>Completion Date</th>
+            <th>Action</th>
         </tr>
     </tfoot>
     <tbody>
@@ -113,6 +115,19 @@
                 <td><?php echo $maintenance['DueDate']; ?></td>
                 <td><?php echo $maintenance['Completed']; ?></td>
                 <td><?php echo $maintenance['CompletionDate']; ?></td>
+                <td>
+    <!-- Done Button -->
+    <form action="../Controllers/ProcessingMaintenance.php" method="POST" style="display: inline;">
+        <input type="hidden" name="taskID" value="<?php echo $maintenance['TaskID']; ?>">
+        <button type="submit" class="btn btn-success btn-sm" name="doneButton">Done</button>
+    </form>
+
+    <!-- Delete Button -->
+    <form action="../Controllers/ProcessingMaintenance.php" method="POST" style="display: inline;">
+        <input type="hidden" name="taskID" value="<?php echo $maintenance['TaskID']; ?>">
+        <button type="submit" class="btn btn-danger btn-sm" name="deleteButton">Delete</button>
+    </form>
+</td>
             </tr>
         <?php endforeach; ?>
     </tbody>
@@ -120,7 +135,12 @@
 
                      
                 </div>
-  
+                <!-- /.container-fluid -->
+          <!-- Add Task Button -->
+<div class="card-footer">
+    <a class="btn btn-primary" href="../includes/MaintenanceForm.php">Add Task</a>
+</div>
+
 
             </div>
             <!-- End of Main Content -->
@@ -129,7 +149,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+                        <span>Copyright &copy; C-rental 2023</span>
                     </div>
                 </div>
             </footer>
