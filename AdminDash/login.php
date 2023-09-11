@@ -91,13 +91,7 @@
     </script>
 </body>
 </html>
-With these changes, when a login fails, the user will be redirected back to the login.php page with an error parameter in the URL. The JavaScript code in login.php will check for the error parameter and display it as a pop-up alert, indicating a wrong username or password. This approach avoids the need for a separate login_error.php page.
-
-
-
-
-
-
+  
 </body>
 
  

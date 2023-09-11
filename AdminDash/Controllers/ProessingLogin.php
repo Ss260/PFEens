@@ -11,6 +11,10 @@
 
         if ($adminObj->login($username, $password)) {
             // Login successful, redirect to the dashboard or any other page
+              // Login successful, retrieve the username
+                $adminName = $adminObj->getAdminName($username);
+                session_start();
+                $_SESSION['admin_username'] = $adminName; // Store the admin's username in a session variable
             header("Location: ../AdminIndex.php");
             exit();
         } else {

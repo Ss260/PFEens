@@ -148,7 +148,22 @@ public function GetAdminData($adminID)
         return array(); // Return an empty array in case of an error
     }
 }
-
+public function getAdminName($username) {
+    $query = "SELECT FirstName, LastName FROM admin WHERE Username = ?";
+    
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param("s", $username);
+    
+    if ($stmt->execute()) {
+        $result = $stmt->get_result();
+        if ($result->num_rows > 0) {
+            $row = $result->fetch_assoc();
+            return $row['FirstName'] . ' ' . $row['LastName'];
+        }
+    }
+    
+    return false; // Return false if the admin's name is not found
+}
 }
 
 ?>
