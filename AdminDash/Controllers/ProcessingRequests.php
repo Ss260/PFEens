@@ -28,31 +28,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $totalAmount = $BookingData['TotalAmount'];
         $pickupLocation = $BookingData['PickupLocation'];
         $returnLocation =$BookingData['ReturnLocation'];
+
         if ($operation === 'Accept') {
             // Update car availability to 0
             $carID = $bookingObj->getCarID($bookingID);
-            $carUpdated = $carObj->updateAvailability($carID, 0);
-            //Getting Vehicle Data 
-            $result = $carObj->getVehicleData($carID);
-            $CarModel = $result["CarModel"];
-           
-            // Update booking status to "Reserved"
-            $bookingStatusUpdated = $bookingObj->updateBookingStatus($bookingID, "Reserved");
-
-            if ($carUpdated && $bookingStatusUpdated) {
-                    $clientObj->sendBookingAcceptationEmail($email,$fullName,$bookingID,$CarModel,$pickupDateTime,$returnDateTime,$totalAmount,$pickupLocation,$returnLocation);
-                echo '<script>alert("Booking accepted successfully!A mail was sent to the client");</script>';
-                $notif->createNotification("Request Handling","Booking ID : ".$bookingID." has been Accepted");
-            } else {
-                // Handle the case where updates failed
-                echo '<script>alert("Error accepting booking. Please try again.");</script>';
+            $carObj = new Vehicle();  
+            $carData = $carObj->getVehicleData($carID);
+            $availability = $carData['Availability'];
+        
+            // Use comparison operator (== or ===) instead of assignment operator (=)
+            if ($availability == 1) { 
+                $carUpdated = $carObj->updateAvailability($carID, 0);
+                // Getting Vehicle Data 
+                $result = $carObj->getVehicleData($carID);
+                $CarModel = $result["CarModel"];
+               
+                // Update booking status to "Reserved"
+                $bookingStatusUpdated = $bookingObj->updateBookingStatus($bookingID, "Reserved");
+        
+                if ($carUpdated && $bookingStatusUpdated) {
+                    $clientObj->sendBookingAcceptationEmail($email, $fullName, $bookingID, $CarModel, $pickupDateTime, $returnDateTime, $totalAmount, $pickupLocation, $returnLocation);
+                    echo '<script>alert("Booking accepted successfully! A mail was sent to the client");</script>';
+                    $notif = new Notifications();
+                    $notif->createNotification("Request Handling", "Booking ID : ".$bookingID." has been Accepted");
+                } else {
+                    // Handle the case where updates failed
+                    echo '<script>alert("Error accepting booking. Please try again.");</script>';
+                }
+            } elseif ($availability == 0) { // Use comparison operator (== or ===) here too
+                echo '<script>alert("Cannot Accept Request, Vehicle Unavailable");</script>';
             }
-        } elseif ($operation === 'Refuse') {
+        }
+         
+        
+        if ($operation === 'Refuse') {
             // Update the booking status to "Refused"
             if ($bookingObj->updateBookingStatus($bookingID, 'Refused')) {
                 $clientObj->sendBookingRefusalEmail($email,$fullName,$bookingID);
 
                 echo '<script>alert("Booking Refused! A mail was sent to the client");</script>';
+                $notif = new Notifications();
+
                 $notif->createNotification("Request Handling","Booking ID : ".$bookingID." has been Refused");
 
             } else {

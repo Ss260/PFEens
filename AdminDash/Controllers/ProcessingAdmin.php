@@ -19,19 +19,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Retrieve admin data
             $adminData = $adminObj->GetAdminData($adminID);
 
-            // Populate the input fields with the retrieved data
-            if (!empty($adminData)) {
+            // Check if data was retrieved successfully
+            if ($adminData) {
                 $newFirstName = $adminData['FirstName'];
                 $newLastName = $adminData['LastName'];
                 $newEmail = $adminData['Email'];
                 $newPhoneNumber = $adminData['PhoneNumber'];
                 $newCIN = $adminData['CIN'];
                 $newUsername = $adminData['Username'];
-                include_once '../view/AdminSettings.php';
+                 // Include the HTML form again to display the retrieved data
+                require_once '../view/AdminSettings.php';
+            } else {
+                // Handle the case when data is not found (e.g., display an error message)
+                echo "Admin data not found for ID: $adminID";
             }
         } else {
-            echo "error";
-         }
+            echo "Error: Admin ID not set.";
+        }
     } else {
         // Handle other button actions (update, delete, addAdmin) here
         if (isset($_POST["update"])) {
@@ -56,6 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $adminID = $_POST["adminID"];
 
             if($adminObj->DeleteAdmin($adminID)){
+    
                 $notif = new Notifications();
                 $notif->createNotification("Deleting an admin","An Admin Account has been Deleted");
             }
@@ -82,3 +87,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
  
 }
 ?>
+ 

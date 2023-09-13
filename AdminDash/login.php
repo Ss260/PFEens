@@ -62,7 +62,8 @@
                                                             <button type="submit" class="btn btn-primary btn-block btn-lg">Login</button>
                                                         </form>
                                                         <div class="text-center mt-3">
-                                                            <a href="#">Forgot Password?</a>
+                                                            <a href="#">Forgot Password?</a> <br>
+                                                            <a href="../index.php">Back</a>
                                                         </div>
                                                     </div>
                                                 </div>

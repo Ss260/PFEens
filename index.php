@@ -273,7 +273,7 @@ $vehicles = $vehicleObj->getAllRecentVehicles(); // Fetch the 6 most recent vehi
                 <li><i class="fa fa-user" aria-hidden="true"></i> <?php echo $seatingCapacity; ?> seats</li>
                 <li><i class="fa fa-calendar" aria-hidden="true"></i> <?php echo $year; ?> model</li>
                 <li><i class="fa fa-car" aria-hidden="true"></i> <?php echo $fuelType; ?></li>
-                <li><i class="fa fa-check-circle" aria-hidden="true"></i> <?php echo $availabilityText; ?></li> <!-- Display Availability -->
+                <li><i class="fa fa-check-circle" aria-hidden="true"></i> <?php echo $availabilityText?></li>  
             </ul>
             <a href="vehicleDetails.php?vhid=<?php echo $carID; ?>" class="btn btn-primary">View Details <span class="fa fa-angle-right"></span></a>
         </div>            

@@ -92,6 +92,9 @@ for ($i = 1; $i <= 1000; $i++) {
             $fuelType = $vehicleData['FuelType'];
             $carID = $vehicleData['CarID'];
             $imageURL = $vehicleData['ImageURL'];
+            $availability = $vehicleData['Availability']; // Added Availability
+        // Determine the availability status text
+            $availabilityText = ($availability == 1) ? 'Available' : 'Unavailable';
 
             // Output a new row at every third iteration
             if ($loopIndex % 3 == 0) {
@@ -110,6 +113,8 @@ for ($i = 1; $i <= 1000; $i++) {
                             <li><i class="fa fa-user" aria-hidden="true"></i> <?php echo $seatingCapacity; ?> seats</li>
                             <li><i class="fa fa-calendar" aria-hidden="true"></i> <?php echo $year; ?> model</li>
                             <li><i class="fa fa-car" aria-hidden="true"></i> <?php echo $fuelType; ?></li>
+                            <li><i class="fa fa-check-circle" aria-hidden="true"></i> <?php echo $availabilityText?></li>  
+                       
                         </ul>
                         <a href="vehicleDetails.php?vhid=<?php echo $carID; ?>" class="btn btn-primary">View Details <span class="fa fa-angle-right"></span></a>
                      

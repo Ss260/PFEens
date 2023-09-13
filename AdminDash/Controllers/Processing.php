@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['operation'] === 'AddVehicle') {
         // Extract form data
         $carModel = $_POST['CarModel'];
-        $carType = $_POST['CarType'];
+        $carType = $_POST['CarType'];       
         $year = $_POST['Year'];
         $color = $_POST['Color'];
         $mileage = $_POST['Mileage'];
@@ -81,41 +81,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
               if ($result) {
                   $successMessage = "Vehicle deleted successfully.";
                   $notif = new Notifications();
-                $notif->createNotification("Deleting Vehicle","A new vehicle has been Deleted");
+                $notif->createNotification("Deleting Vehicle","A vehicle has been Deleted");
               } else {
                   $errorMessage = "Error deleting vehicle. Please check the Car ID and try again.";
               }
           } catch (Exception $e) {
               $errorMessage = "An error occurred while deleting the vehicle: " . $e->getMessage();
           }
-      }elseif($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if ($_POST['operation'] === 'ShowData') {
-            require_once '../Controllers/AdminControllers/Vehicle.php'; // Include your Vehicle class file
-            $vehicleObj = new Vehicle();
-            $retrievedCarID = $_POST['CarID'];
+      }elseif($_POST['operation'] === 'ShowData') {
+      
+            if(isset($_POST["CarID"])){
+                $retrievedCarID = $_POST['CarID'];
+                $vehicleObj = new Vehicle();
             $vehicleData = $vehicleObj->getVehicleData($retrievedCarID); // Implement getVehicleData method
-                    
-            if ($vehicleData) {
+             if (!empty($vehicleData)) {
+                  
                 $carModel = $vehicleData['CarModel'];
+                echo $carModel."<br>";
                 $carType = $vehicleData['CarType'];
+                echo $carType."<br>";
                 $year = $vehicleData['Year'];
+                echo $year."<br>";
                 $color = $vehicleData['Color'];
+                echo $color."<br>";
                 $mileage = $vehicleData['Mileage'];
+                echo $mileage."<br>";
                 $fuelType = $vehicleData['FuelType'];
+                echo $fuelType."<br>";
                 $licensePlate = $vehicleData['LicensePlate'];
+                echo $licensePlate."<br>";
                 $seatingCapacity = $vehicleData['SeatingCapacity'];
+                echo $seatingCapacity."<br>";
                 $dailyRate = $vehicleData['DailyRate'];
+                echo $dailyRate."<br>";
                 $location = $vehicleData['Location'];
+                echo $location."<br>";
                 $adminNotes = $vehicleData['AdminNotes'];
+                echo $adminNotes."<br>";
                 $legalDocuments = $vehicleData['LegalDocuments'];
+                echo $legalDocuments."<br>";
                 $transmission = $vehicleData['Transmission'];
+                echo $transmission."<br>";
                 $availability = (int)$vehicleData['Availability'];
-                include '../view/UpdateVehicle.php';
-    
-            }
-                        //include '../view/UpdateVehicle.php';
-                        //include '../includes/VehicleFormUpdate.php'; // Create a separate file for the form to keep the code clean
-                } } 
+                echo $availability."<br>";
+                require_once '../view/UpdateVehicle.php';
+            }else{echo "error";}}
+                      
+                  } 
                 if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['operation'])) {
                     require_once '../Controllers/AdminControllers/Vehicle.php'; // Include your Vehicle class file
                     require_once '../Model/ConnectionController.php'; // Include your ConnectionController file
@@ -140,13 +152,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         $availability = (int)$_POST['Availability'];
 
                        // Get the absolute path of the directory containing the current script
-$currentDirectory = __DIR__;
+                        $currentDirectory = __DIR__;
 
-// Construct the upload directory path relative to the script's location
-$uploadDirectory = $currentDirectory . '/VehImg';
+                        // Construct the upload directory path relative to the script's location
+                        $uploadDirectory = $currentDirectory . '/VehImg';
 
-// Handle file uploads and update images if necessary
-$imageNames = array();
+                        // Handle file uploads and update images if necessary
+                        $imageNames = array();
 if (isset($_FILES['images']['name']) && !empty($_FILES['images']['name'][0])) {
     // Loop through each uploaded image
     for ($i = 0; $i < count($_FILES['images']['name']); $i++) {
@@ -177,7 +189,7 @@ if (isset($_FILES['images']['name']) && !empty($_FILES['images']['name'][0])) {
 
     $vehicleObj->updateImageURLs($carID, $imageNames);
 }
-
+ 
                              
                         // Call the updateVehicle method
                         try {
