@@ -12,23 +12,22 @@ $adminID = $newFirstName = $newLastName = $newEmail = $newPhoneNumber = $newCIN 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["showData"])) {
-        // Handle the "Show Data" button click
+            // Handle the "Show Data" button click
         if (isset($_POST["adminID"])) {
             $adminID = $_POST["adminID"];
 
             // Retrieve admin data
             $adminData = $adminObj->GetAdminData($adminID);
-
-            // Check if data was retrieved successfully
+              // Check if data was retrieved successfully
             if ($adminData) {
                 $newFirstName = $adminData['FirstName'];
-                $newLastName = $adminData['LastName'];
-                $newEmail = $adminData['Email'];
-                $newPhoneNumber = $adminData['PhoneNumber'];
-                $newCIN = $adminData['CIN'];
-                $newUsername = $adminData['Username'];
+                 $newLastName = $adminData['LastName'];
+                 $newEmail = $adminData['Email'];
+                 $newPhoneNumber = $adminData['PhoneNumber'];
+                 $newCIN = $adminData['CIN'];
+                 $newUsername = $adminData['Username'];
+                 include '../view/AdminSettings.php';
                  // Include the HTML form again to display the retrieved data
-                require_once '../view/AdminSettings.php';
             } else {
                 // Handle the case when data is not found (e.g., display an error message)
                 echo "Admin data not found for ID: $adminID";
@@ -36,7 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         } else {
             echo "Error: Admin ID not set.";
         }
-    } else {
+            
+    }
         // Handle other button actions (update, delete, addAdmin) here
         if (isset($_POST["update"])) {
             // Handle the "Update" button click
@@ -82,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
           }
-    }
+    
 
  
 }

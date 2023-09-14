@@ -97,34 +97,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
              if (!empty($vehicleData)) {
                   
                 $carModel = $vehicleData['CarModel'];
-                echo $carModel."<br>";
                 $carType = $vehicleData['CarType'];
-                echo $carType."<br>";
-                $year = $vehicleData['Year'];
-                echo $year."<br>";
-                $color = $vehicleData['Color'];
-                echo $color."<br>";
-                $mileage = $vehicleData['Mileage'];
-                echo $mileage."<br>";
-                $fuelType = $vehicleData['FuelType'];
-                echo $fuelType."<br>";
-                $licensePlate = $vehicleData['LicensePlate'];
-                echo $licensePlate."<br>";
-                $seatingCapacity = $vehicleData['SeatingCapacity'];
-                echo $seatingCapacity."<br>";
-                $dailyRate = $vehicleData['DailyRate'];
-                echo $dailyRate."<br>";
-                $location = $vehicleData['Location'];
-                echo $location."<br>";
-                $adminNotes = $vehicleData['AdminNotes'];
-                echo $adminNotes."<br>";
-                $legalDocuments = $vehicleData['LegalDocuments'];
-                echo $legalDocuments."<br>";
-                $transmission = $vehicleData['Transmission'];
-                echo $transmission."<br>";
-                $availability = (int)$vehicleData['Availability'];
-                echo $availability."<br>";
-                require_once '../view/UpdateVehicle.php';
+                 $year = $vehicleData['Year'];
+                 $color = $vehicleData['Color'];
+                 $mileage = $vehicleData['Mileage'];
+                 $fuelType = $vehicleData['FuelType'];
+                 $licensePlate = $vehicleData['LicensePlate'];
+                 $seatingCapacity = $vehicleData['SeatingCapacity'];
+                 $dailyRate = $vehicleData['DailyRate'];
+                 $location = $vehicleData['Location'];
+                 $adminNotes = $vehicleData['AdminNotes'];
+                 $legalDocuments = $vehicleData['LegalDocuments'];
+                 $transmission = $vehicleData['Transmission'];
+                 $availability = (int)$vehicleData['Availability'];
+                 require_once '../view/UpdateVehicle.php';
             }else{echo "error";}}
                       
                   } 

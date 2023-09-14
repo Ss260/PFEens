@@ -79,7 +79,7 @@
 
         // Call the ViewAdmins method to retrieve the admin accounts
         $adminAccounts = $adminObj->ViewAdmins();
-        ?>
+    ?>
 
         <!-- Drop-down to select an admin account -->
          <select id="adminSelect" name="adminID">
@@ -138,7 +138,7 @@
 
 
                      <!-- Include the JavaScript to display pop-up messages -->
-                    <script src="display_messages.js"></script>
+                    <!-- <script src="display_messages.js"></script> -->
     
                     <!-- /.container-fluid -->
     
