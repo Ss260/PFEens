@@ -77,8 +77,7 @@
     include_once '../Controllers/AdminControllers/Maintenance.php';
       $MainObj = new Maintenance;
       $maintenancelog= $MainObj->viewMaintenanceLog();
-
-      ?>
+       ?>
       <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Maintenance Table</h6>
@@ -105,13 +104,15 @@
         </tr>
     </tfoot>
     <tbody>
-        <?php foreach ($maintenancelog as $maintenance): ?>
+        <?php
+
+        foreach ($maintenancelog as $maintenance): ?>
             <tr>
                 <td><?php echo $maintenance['TaskID']; ?></td>
                 <td><?php echo $maintenance['CarID']; ?></td>
                 <td><?php echo $maintenance['TaskType']; ?></td>
                 <td><?php echo $maintenance['DueDate']; ?></td>
-                <td><?php echo $maintenance['Completed']; ?></td>
+                <td><?php echo ($maintenance['Completed'] == 0) ? 'Uncompleted' : 'Completed'; ?></td>
                 <td><?php echo $maintenance['CompletionDate']; ?></td>
             </tr>
         <?php endforeach; ?>

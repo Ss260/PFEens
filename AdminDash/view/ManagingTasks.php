@@ -91,8 +91,7 @@
             <th>Task Type</th>
             <th>Due Date</th>
             <th>Completed</th>
-            <th>Completion Date</th>
-            <th>Action</th> <!-- Add a new column for buttons -->
+             <th>Action</th> <!-- Add a new column for buttons -->
         </tr>
     </thead>
     <tfoot>
@@ -102,8 +101,7 @@
             <th>Task Type</th>
             <th>Due Date</th>
             <th>Completed</th>
-            <th>Completion Date</th>
-            <th>Action</th>
+             <th>Action</th>
         </tr>
     </tfoot>
     <tbody>
@@ -113,9 +111,8 @@
                 <td><?php echo $maintenance['CarID']; ?></td>
                 <td><?php echo $maintenance['TaskType']; ?></td>
                 <td><?php echo $maintenance['DueDate']; ?></td>
-                <td><?php echo $maintenance['Completed']; ?></td>
-                <td><?php echo $maintenance['CompletionDate']; ?></td>
-                <td>
+                <td><?php echo ($maintenance['Completed'] == 0) ? 'Uncompleted' : 'Completed'; ?></td>
+                 <td>
     <!-- Done Button -->
     <form action="../Controllers/ProcessingMaintenance.php" method="POST" style="display: inline;">
         <input type="hidden" name="taskID" value="<?php echo $maintenance['TaskID']; ?>">
