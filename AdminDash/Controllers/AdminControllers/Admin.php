@@ -1,4 +1,10 @@
+<script src="../../js/popup.js"></script>
+
 <?php
+ require '../../vendor/autoload.php';
+ use PHPMailer\PHPMailer\PHPMailer;
+ use PHPMailer\PHPMailer\Exception;
+ use PHPMailer\PHPMailer\SMTP;
 if (file_exists(__DIR__ . '/../../Model/ConnectionController.php')) {
     require_once __DIR__ . '/../../Model/ConnectionController.php';
 } else {
@@ -22,9 +28,9 @@ class Admin
             $stmt->bind_param("sssssss", $firstName, $lastName, $email, $phoneNumber, $cin, $username, $password);
 
             if ($stmt->execute()) {
-                echo "Admin added successfully.";
+                echo "<script>showAlert('Admin Added Successfully', '../view/AdminSettings.php');</script>";
             } else {
-                throw new Exception("Error adding admin: " . $stmt->error);
+                throw new Exception("<script>showAlert('Error Adding Admin', '../view/AdminSettings.php');</script>" . $stmt->error);
             }
 
             $stmt->close();
@@ -44,9 +50,9 @@ class Admin
             $stmt->bind_param("i", $adminID);
 
             if ($stmt->execute()) {
-                echo "Admin deleted successfully.";
+                echo "<script>showAlert('Admin Deleted Successfully', '../view/AdminSettings.php');</script>";
             } else {
-                throw new Exception("Error deleting admin: " . $stmt->error);
+                throw new Exception("<script>showAlert('Error Deleting Admin', '../view/AdminSettings.php');</script>". $stmt->error);
             }
 
             $stmt->close();
@@ -62,9 +68,9 @@ class Admin
             $stmt->bind_param("sssssssi", $newFirstName, $newLastName, $newEmail, $newPhoneNumber, $newCIN, $newUsername, $newPassword, $adminID);
 
             if ($stmt->execute()) {
-                echo "Admin information updated successfully.";
+                echo "<script>showAlert('Admin Deleted Successfully', '../view/AdminSettings.php');</script>";
             } else {
-                throw new Exception("Error updating admin information: " . $stmt->error);
+                throw new Exception("<script>showAlert('Error Updating Admin', '../view/AdminSettings.php');</script>". $stmt->error);
             }
 
             $stmt->close();
@@ -164,6 +170,54 @@ public function getAdminName($username) {
     
     return false; // Return false if the admin's name is not found
 }
+
+public function ReceiveClientMessage($fullName, $email, $subject,$msg) {
+    $emailContent = "<html>
+    <head>
+        <title>New Client Complaint at C-Rental</title>
+    </head>
+    <body>
+        <p>Hello,</p>
+        <p>You have received a new complaint from a client at C-Rental:</p>
+        <ul>
+            <li><strong>Name:</strong> $fullName</li>
+            <li><strong>Email:</strong> $email</li>
+            <li><strong>Subject:</strong> $subject</li>
+            <li><strong>Message:</strong> $msg</li>
+        </ul>
+        <p>Please respond to the client's complaint as soon as possible.</p>
+        <p>Best regards,<br>C-Rental Notification</p>
+    </body>
+    </html>";
+    // Send email to client
+    $mail = new PHPMailer(true);
+
+    // Gmail SMTP settings
+    $mail->isSMTP();
+    $mail->Host       = 'smtp.gmail.com';
+    $mail->SMTPAuth   = true;
+    $mail->Username   = 'amrsfn26@gmail.com'; // Replace with your Gmail email
+    $mail->Password   = 'ntjirwvcdobovwkl'; // Replace with your Gmail password
+    $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port       = 587;
+
+    $mail->setFrom('amrsfn26@gmail.com', 'C-rental');
+    $mail->addAddress('amrsfn26@gmail.com', $fullName); // Send a copy to the client's email address
+
+    $mail->isHTML(true); // Set email format to HTML
+
+    $mail->Subject = 'New Client Complaint at C-Rental';
+    $mail->Body    =  $emailContent;
+
+    // Send email to client and handle errors separately
+    try {
+         $mail->send();
+         echo "<script>showAlert(\"Email sent to C-rental's Support Team\", '../../contact.php');</script>";
+        } catch (Exception $e) {
+            echo "<script>showAlert(\"Unable to send email to C-rental's Support Team\", '../../contact.php');</script>";
+        }
 }
 
+
+}
 ?>

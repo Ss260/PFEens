@@ -1,3 +1,4 @@
+<script src="../js/popup.js"></script>
 <?php
 require_once '../Controllers/AdminControllers/Vehicle.php';
 require_once '../Model/ConnectionController.php';
@@ -33,11 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             for ($i = 0; $i < $imageCount; $i++) {
                 $imageName = $_FILES['images']['name'][$i];
                 $imageTmpName = $_FILES['images']['tmp_name'][$i];
-                if (move_uploaded_file($imageTmpName, $uploadDirectory . '/' . $imageName)) {
-                    echo "Image moved successfully: " . $imageName . "<br>";
-                } else {
-                    echo "Error moving uploaded file: " . $imageName . "<br>";
-                }
+                 move_uploaded_file($imageTmpName, $uploadDirectory . '/' . $imageName) ; 
                 $imageURLs[] = $imageName;
             }
         }
@@ -62,8 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $errorMessage = "An error occurred while adding the vehicle: " . $e->getMessage();
         }
     }elseif ($_POST['operation'] === 'DeleteVehicle') {
-        // Extract the Car ID to be deleted
-          // Extract the Car ID to be deleted
+       
           $carID = $_POST['CarId'];
 
           // Include the necessary files
@@ -207,22 +203,4 @@ if (isset($_FILES['images']['name']) && !empty($_FILES['images']['name'][0])) {
 }
 ?>
 
-<!-- JavaScript to display pop-up messages -->
-<script>
-    function displaySuccessMessage(message) {
-        alert(message); // You can customize this to show a more visually appealing pop-up
-    }
-
-    function displayErrorMessage(message) {
-        alert(message); // You can customize this to show a more visually appealing pop-up
-    }
-
-    <?php if (!empty($successMessage)) : ?>
-        displaySuccessMessage("<?php echo $successMessage; ?>");
-    <?php endif; ?>
-
-    // Display a pop-up error message
-    <?php if (!empty($errorMessage)) : ?>
-        displayErrorMessage("<?php echo $errorMessage; ?>");
-    <?php endif; ?>
-</script>
+ 

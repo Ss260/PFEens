@@ -39,7 +39,7 @@
                     <a href="about.html" class="nav-item nav-link">About</a>
                     <a href="testimonial.html" class="nav-item nav-link">Testimonial</a>
                    
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+                    <a href="contact.php" class="nav-item nav-link">Contact</a>
                 </div>
                 <a href="service.php" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">Rent a Vehicule<i class="fa fa-arrow-right ms-3"></i></a>
             </div>

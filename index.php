@@ -572,41 +572,43 @@ $vehicles = $vehicleObj->getAllRecentVehicles(); // Fetch the 6 most recent vehi
                 <div class="col-lg-6 quote-text py-5 wow fadeIn" data-wow-delay="0.5s">
                     <div class="p-lg-5 pe-lg-0">
                         <div class="section-title text-start">
-                            <h1 class="display-5 mb-4">__ Contact-Us</h1>
+                            <h1 class="display-5 mb-4"> Contact-Us</h1>
                         </div>
-                        <p class="mb-4 pb-2">Got a question? a complaint? in need of a consulation? just contact us and we'll respond within the next 24hrs.</p>
-                        <form>
+                        <p class="mb-4">Got a question? A complaint? In need of a consultation? Just contact us, and we'll respond within the next 24 hours.</p>
+                        <form action="AdminDash/Controllers/ProcessingContactUs.php" method="post">
                             <div class="row g-3">
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                        <input type="text" class="form-control" id="name" name="name" placeholder="Your Name">
                                         <label for="name">Your Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" placeholder="Your Email">
+                                        <input type="email" class="form-control" id="email" name="email" placeholder="Your Email">
                                         <label for="email">Your Email</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <input type="text" class="form-control" id="subject" placeholder="Subject">
+                                        <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject">
                                         <label for="subject">Subject</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <div class="form-floating">
-                                        <textarea class="form-control" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
+                                        <textarea class="form-control" name="message" placeholder="Leave a message here" id="message" style="height: 100px"></textarea>
                                         <label for="message">Message</label>
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+                                    <button class="btn btn-primary w-100 py-3" type="submit"  >Send Message</button>
                                 </div>
                             </div>
                         </form>
                     </div>
+                </div>
+                 
                 </div>
             </div>
         </div>
@@ -755,7 +757,7 @@ $vehicles = $vehicleObj->getAllRecentVehicles(); // Fetch the 6 most recent vehi
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-light mb-4">Quick Links</h4>
                     <a class="btn btn-link" href="about.html">About Us</a>
-                    <a class="btn btn-link" href="contact.html">Contact Us</a>
+                    <a class="btn btn-link" href="contact.php">Contact Us</a>
                     <a class="btn btn-link" href="service.php">Our Services</a>
                     <!-- <a class="btn btn-link" href="">Terms & Condition</a> -->
                     <a class="btn btn-link" href="/C-rental/AdminDash/login.php">Admin Login</a>

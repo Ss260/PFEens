@@ -1,3 +1,5 @@
+<script src="../js/popup.js"></script>
+
 <?php
 // Include the Admin.php file
 include_once '../Controllers/AdminControllers/Admin.php';
@@ -79,6 +81,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if($adminObj->AddAdmin($firstName, $lastName, $email, $phoneNumber, $cin, $username, $password)){
                 $notif = new Notifications();
                 $notif->createNotification("Adding an admin","An admin account has been Added");
+ 
             }
 
           }

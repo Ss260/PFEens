@@ -1,3 +1,5 @@
+<script src="../../js/popup.js"></script>
+ 
 <?php
 if (file_exists(__DIR__ . '/../../Model/ConnectionController.php')) {
     require_once __DIR__ . '/../../Model/ConnectionController.php';
@@ -12,38 +14,7 @@ class Vehicle {
         $this->conn = getConnection("localhost", "root", "", "rental");
     }
     
-    public function updateImageURLs($carID, $imageURLs) {
-        // Delete existing image URLs for the car
-        $this->deleteImageURLs($carID);
-        
-        // Insert new image URLs
-        $this->addImageURLs($carID, $imageURLs);
-    }
-    
-    public function deleteImageURLs($carID) {
-        try {
-            $stmt = $this->conn->prepare("DELETE FROM carImages WHERE vehicle_id = ?");
-            $stmt->bind_param("i", $carID);
-            $stmt->execute();
-            $stmt->close();
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
-    public function addImageURLs($vehicleID, $imageURLs) {
-        try {
-            $stmt = $this->conn->prepare("INSERT INTO carimages (vehicle_id, image_url) VALUES (?, ?)");
-            foreach ($imageURLs as $url) {
-                $stmt->bind_param("is", $vehicleID, $url);
-                if (!$stmt->execute()) {
-                    throw new Exception("Error adding image URL: " . $stmt->error);
-                }
-            }
-            $stmt->close();
-        } catch (Exception $e) {
-            throw $e;
-        }
-    }
+  
     
 
     public function addVehicle($carModel, $carType, $year, $color, $mileage, $licensePlate, $fuelType, $transmission, $seatingCapacity, $dailyRate, $availability, $location, $adminNotes, $legalDocuments, $imageURLs) {
@@ -54,9 +25,12 @@ class Vehicle {
             if ($stmt->execute()) {
                 $vehicleID = $stmt->insert_id;
                 $this->addImageURLs($vehicleID, $imageURLs); // Call to addImageURLs method
+                echo "<script>showAlert('Vehicle Added Successfully', '../view/AddVehicle.php');</script>";
                 return true;
+
+
             } else {
-                throw new Exception("Error adding vehicle: " . $stmt->error);
+                throw new Exception("<script>showAlert('Error adding Vehicle', '../view/AddVehicle.php');</script>" . $stmt->error);
             }
         } catch (Exception $e) {
             throw $e;
@@ -70,11 +44,12 @@ class Vehicle {
             $stmt->bind_param("ssssssssssssssi", $carModel, $carType, $year, $color, $mileage, $licensePlate, $fuelType, $transmission, $seatingCapacity, $dailyRate, $availability, $location, $adminNotes, $legalDocuments, $carID);
             
             if ($stmt->execute()) {
-                
-                $this->updateImageURLs($carID, $imageURLs); // Call to updateImageURLs method
+                $this->updateImageURLs($carID, $imageURLs);
+                echo "<script>showAlert('Vehicle Updated Successfully', '../view/UpdateVehicle.php');</script>";
                 return true;
+
             } else {
-                throw new Exception("Error updating vehicle: " . $stmt->error);
+                throw new Exception("<script>showAlert('Error updating Vehicle', '../view/UpdateVehicle.php');</script>" . $stmt->error);
             }
         } catch (Exception $e) {
             throw $e;
@@ -165,7 +140,8 @@ class Vehicle {
             
             if ($checkResult->num_rows === 0) {
                 $checkStmt->close();
-                throw new Exception("Car with ID $carID does not exist.");
+                echo "<script>showAlert('Car with ID $carID does not exist', '../view/DeleteVehicle.php');</script>";
+                return false;
             }
             
             $checkStmt->close();
@@ -179,11 +155,18 @@ class Vehicle {
             $success = $stmt->execute();
             $stmt->close();
     
+            if ($success) {
+                echo "<script>showAlert('Vehicle Deleted Successfully', '../view/DeleteVehicle.php');</script>";
+            } else {
+                echo "<script>showAlert('Error Deleting Vehicle', '../view/DeleteVehicle.php');</script>";
+            }
+    
             return $success;
         } catch (Exception $e) {
             throw $e;
         }
     }
+    
     
     public function viewVehicles() {
         try {
@@ -254,6 +237,39 @@ class Vehicle {
             } else {
                 return false; // Error occurred during update
             }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function updateImageURLs($carID, $imageURLs) {
+        // Delete existing image URLs for the car
+        $this->deleteImageURLs($carID);
+        
+        // Insert new image URLs
+        $this->addImageURLs($carID, $imageURLs);
+    }
+    
+    public function deleteImageURLs($carID) {
+        try {
+            $stmt = $this->conn->prepare("DELETE FROM carImages WHERE vehicle_id = ?");
+            $stmt->bind_param("i", $carID);
+            $stmt->execute();
+            $stmt->close();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+    public function addImageURLs($vehicleID, $imageURLs) {
+        try {
+            $stmt = $this->conn->prepare("INSERT INTO carimages (vehicle_id, image_url) VALUES (?, ?)");
+            foreach ($imageURLs as $url) {
+                $stmt->bind_param("is", $vehicleID, $url);
+                if (!$stmt->execute()) {
+                    throw new Exception("Error adding image URL: " . $stmt->error);
+                }
+            }
+            $stmt->close();
         } catch (Exception $e) {
             throw $e;
         }

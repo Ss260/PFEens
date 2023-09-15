@@ -36,7 +36,7 @@
                 <?php include '../includes/VehicleFormAdd.php' ?>
                 <!-- Include the JavaScript to display pop-up messages -->
 
-                <script src="display_messages.js"></script>
+                <!-- <script src="display_messages.js"></script> -->
 
                 <!-- /.container-fluid -->
 

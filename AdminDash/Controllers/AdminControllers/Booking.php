@@ -45,31 +45,7 @@ class Booking{
         }
     }
     
-    // public function getClientBookingData($carID){
-    //     try {
-    //         $query = "SELECT * FROM booking WHERE CarID = ?";
-    //         $stmt = $this->conn->prepare($query);
-    //         $stmt->bind_param("i", $carID);
-            
-    //         if ($stmt->execute()) {
-    //             $result = $stmt->get_result();
-                
-    //             $bookingData = array(); 
     
-    //             if ($result->num_rows > 0) {
-    //                 while ($row = $result->fetch_assoc()) {
-    //                     $bookingData[] = $row;
-    //                 }
-    //             }
-    
-    //             return $bookingData;
-    //         } else {
-    //             throw new Exception("Error executing query: " . $stmt->error);
-    //         }
-    //     } catch (Exception $e) {
-    //         throw $e;
-    //     }
-    // }
     public function getPendingBookings() {
         try {
             $query = "SELECT * FROM Booking WHERE BookingStatus = 'Pending'";
