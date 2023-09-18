@@ -126,7 +126,18 @@ class Booking{
             }
         }
     }
+    public function updateBookingStatusToDONE() {
+        $currentDateTime = date("Y-m-d H:i:s");
+        $query = "UPDATE booking SET BookingStatus = 'Completed' WHERE ReturnDateTime < ? AND BookingStatus = 'Reserved'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("s", $currentDateTime);
 
+        if ($stmt->execute()) {
+            return true; // Updated successfully
+        } else {
+            return false; // Update failed
+        }
+    }
     public function calculateMonthlyEarnings() {
         // Calculate the first day of the current month
         $firstDayOfMonth = date("Y-m-01");
@@ -145,10 +156,15 @@ class Booking{
         if ($result && $result->num_rows > 0) {
             $row = $result->fetch_assoc();
             return $row['monthly_earnings'];
+ 
         } else {
             return 0; // No earnings for the current month
         }
+ 
     }
+    
+
+    
     public function calculateAnnualEarnings() {
         // Calculate the first day of the current year
         $firstDayOfYear = date("Y-01-01");

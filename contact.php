@@ -195,7 +195,6 @@
                             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61777.47711840654!2d-3.9372!3d35.2456!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdaf20e74cfb9b59%3A0x8eb7b6a4ce4c6f5f!2sAl%20Hoceima!5e0!3m2!1sen!2sma!4v1603794290143!5m2!1sen!2sma"
                             frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0">
                     </iframe>
-
                     </div>
                 </div>
             </div>

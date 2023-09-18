@@ -97,7 +97,8 @@ class Admin
     
                     // Compare the provided password with the stored plain text password
                     if ($password === $row['Password']) {
-                        // Passwords match, login successful
+                        // Passwords match, set a session variable to indicate authentication
+                        $_SESSION['user_authenticated'] = true;
                         return true;
                     }
                 }
@@ -110,6 +111,13 @@ class Admin
             echo "An error occurred: " . $e->getMessage();
             return false;
         }
+    }
+
+     
+    public function logout() {
+        // Destroy the session and log the user out
+        session_unset();
+        session_destroy();
     }
     public function ViewAdmins() {
  

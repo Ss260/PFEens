@@ -1,3 +1,4 @@
+ 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-     <?php
-         session_start(); 
-    ?>
+   
     <title>Admin Dashboard</title>
 
     <!-- Custom fonts for this template-->
@@ -59,7 +58,7 @@
     </a>
     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Vehicule:</h6>
+            <h6 class="collapse-header">Vehicle:</h6>
             <a class="collapse-item" href="/C-rental/AdminDash/view/AddVehicle.php">Add Vehicule</a>
             <a class="collapse-item" href="/C-rental/AdminDash/view/DeleteVehicle.php">Delete Vehicule</a>
             <a class="collapse-item" href="/C-rental/AdminDash/view/UpdateVehicle.php">Update Vehicule</a>

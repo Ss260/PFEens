@@ -21,10 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $toDate = $_POST['toDate'];
     $fullname = $firstName." ".$lastName;
     $carID = $_POST['carID'];
-
-
-   
-
+ 
     // Create a Client instance and add the client
     $clientObj = new Client();
     $clientID = $clientObj->AddClient($firstName, $lastName, $email, $phoneNumber);
